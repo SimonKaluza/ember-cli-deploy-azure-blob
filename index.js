@@ -135,20 +135,16 @@ module.exports = {
         options['cacheControl'] = this._cacheControlPolicy(fileStat);
 
         client.doesBlobExist(containerName, targetFile, function(error, blobExists, response) {
-          if(blobExists === true) {
-            next();
-          } else {
-            client.createBlockBlobFromLocalFile(containerName, targetFile, resolvedFile, options, function(error, result, response){
-              if(!error){
-                // file uploaded
-              } else {
-                _this.log("Error uploading " + targetFile, { color: 'red'});
-                _this.log(error, { color: 'red', verbose: true});
-              }
+          client.createBlockBlobFromLocalFile(containerName, targetFile, resolvedFile, options, function(error, result, response){
+            if(!error){
+              // file uploaded
+            } else {
+              _this.log("Error uploading " + targetFile, { color: 'red'});
+              _this.log(error, { color: 'red', verbose: true});
+            }
 
-              next();
-            });
-          }
+            next();
+          });
         });
       },
 
